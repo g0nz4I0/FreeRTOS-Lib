@@ -16,11 +16,12 @@
 
 #include "ErrorHandler/ErrorHandler.hpp"
 
+namespace rtos
+{
 /**
  * @class thread
  * @brief thread class abstraction above native FreeRTOS tasks
  */
-
 class thread
 {
 public:
@@ -77,7 +78,7 @@ public:
      * 
      * @return TickType_t 
      */
-    static TickType_t get_time_reference()const
+    static TickType_t get_time_reference()
     {
         return  xTaskGetTickCount();
     }
@@ -90,8 +91,4 @@ public:
 private:
     TaskHandle_t handle{};
 };
-
-/**
- * @section Usage   Usage
- * @snippet doxygen_examples/Thread.cpp Thread usage
- */
+}//rtos
