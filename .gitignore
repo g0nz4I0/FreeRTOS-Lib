@@ -26,6 +26,9 @@
 *.a
 *.lib
 
+#doxygen
+doxygen*/
+
 # Executables
 *.exe
 *.out
