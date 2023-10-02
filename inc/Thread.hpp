@@ -1,7 +1,7 @@
 /**
  * @file Thread.hpp
- * @author Gonzalo (gsanmoy@etsinf.upv.es)
- * @brief 
+ * @author gonzalo
+ * @brief Thread class developed by Hyperloop Team
  * @version 0.1
  * @date 2023-10-02
  * 
@@ -47,15 +47,20 @@ public:
     		ErrorHandler("Failed constraints");
 		}
 
-    	if constexpr (sizeof...(args) > 0 ){
-        if (xTaskCreate((void(*)(void*))(t), name,stack_size,args...,priority,&handle) != pdPASS)
-		{
-			ErrorHandler("Could not allocate specified stack size");
-		}
+    	if constexpr (sizeof...(args) > 0 )
+        {
+            if (xTaskCreate((void(*)(void*))(t), name,stack_size,args...,priority,&handle) != pdPASS)
+            {
+                ErrorHandler("Could not allocate specified stack size");
+            }
+        }else
+        {
+            if(xTaskCreate((void(*)(void*))(t), name,stack_size,nullptr,priority,&handle) != pdPASS)
+            {
+                ErrorHandler("Could not allocate specified stack size");
 
-    	}else{
-    	   xTaskCreate((void(*)(void*))(t), name,stack_size,nullptr,priority,&handle);
-    	}
+            }
+        }
     }
     /**
      * @brief suspends execution for the specified time
