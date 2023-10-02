@@ -19,6 +19,15 @@ mutex_state mutex::acquire(TickType_t time = portMAX_DELAY)
         return mutex_state::NOT_ACQUIRED;
     }
 }
+void mutex::release()
+{
+   if(xSemaphoreGive(handle) == pdPASS)
+   {
+    return;
+   }else{
+        ErrorHandler("the mutex is not owned by you");
+   }
+}
 SemaphoreHandle_t mutex::get_handle()const{
     return handle;
 }

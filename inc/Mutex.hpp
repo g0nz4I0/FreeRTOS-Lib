@@ -36,8 +36,10 @@ public:
      * @return mutex_state::ACQUIRED if the mutex was acquired, mutex_state::NOT_ACQUIRED if it could not be acquired after the time specified
      */
     [[nodiscard("the function can return if a timeout occurs and the mutex is not acquired")]]mutex_state acquire(TickType_t time = portMAX_DELAY);
+    
     /**
-     * @brief release the mutex
+     * @brief releases the mutex
+     * @return none if suceeds, if it fails to release because you are not the owner it goes into the ErrorHandler
      * 
      */
     void release();
