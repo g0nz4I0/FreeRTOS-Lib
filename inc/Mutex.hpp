@@ -1,7 +1,7 @@
 /**
  * @file Mutex.hpp
  * @author gonzalo
- * @brief 
+ * @brief mutex utility by Hyperloop team
  * @version 0.1
  * @date 2023-10-02
  * 

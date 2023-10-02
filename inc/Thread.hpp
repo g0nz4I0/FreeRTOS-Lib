@@ -1,7 +1,7 @@
 /**
  * @file Thread.hpp
  * @author gonzalo
- * @brief Thread class developed by Hyperloop Team
+ * @brief thread utility by Hyperloop Team
  * @version 0.1
  * @date 2023-10-02
  * 
