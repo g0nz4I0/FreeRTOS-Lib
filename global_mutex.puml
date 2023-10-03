@@ -1,0 +1,35 @@
+@startuml
+skinparam linetype ortho
+
+enum mutex_type{
+    \tAAA
+    \tTCP
+    \tDMA
+    \tZZZ
+}
+enum mutex_state{
+    \t ACQUIRED
+    \t NOT_ACQUIRED\t\t
+}
+
+abstract GlobalMutexHandler{
+   --public--
+    +{abstract}static mutex_state acquire<mutex_type>()
+    +{abstract}static bool release<mutex_type>()
+    +{abstract}static array<StaticSemaphore_t,num_semaphores> semaphores_buffer
+    +{abstract}static constexpr unsigned int num_semaphores
+}
+
+abstract global_mutex<mutex_type>{ 
+    +mutex_state acquire()
+    +bool release()
+    -SemaphoreHandle_t handle
+    
+}
+mutex_type -o global_mutex
+mutex_state -o global_mutex
+mutex_state -up-o GlobalMutexHandler
+mutex_type -up-o GlobalMutexHandler
+
+
+@enduml
