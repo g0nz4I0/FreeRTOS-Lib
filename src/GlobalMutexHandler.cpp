@@ -5,6 +5,7 @@
 
 namespace rtos
 {
+
 global_mutex<mutex_type::DMA> dma_mutex;
 global_mutex<mutex_type::TCP> tcp_mutex;
 global_mutex<mutex_type::AAA> aaa_mutex;
