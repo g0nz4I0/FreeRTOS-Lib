@@ -29,6 +29,12 @@
 #doxygen
 doxygen*/
 
+#build
+build/
+
+#vscode
+.vscode/
+
 # Executables
 *.exe
 *.out
