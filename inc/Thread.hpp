@@ -11,11 +11,7 @@
 
 #pragma once
 
-#include <free-rtos/include/FreeRTOS.h>
-#include <free-rtos/include/task.h>
-
-#include "ErrorHandler/ErrorHandler.hpp"
-
+#include <freeRTOS-lib/inc/defs.hpp>
 namespace rtos
 {
 /**

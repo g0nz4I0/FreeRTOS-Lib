@@ -8,6 +8,8 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
+#include <freeRTOS-lib/inc/defs.hpp>
 namespace rtos
 {
     /**

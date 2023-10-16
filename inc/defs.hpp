@@ -9,6 +9,14 @@
  * 
  */
 #pragma once
+
+#include <free-rtos/include/FreeRTOS.h>
+#include <free-rtos/include/task.h>
+#include <free-rtos/include/semphr.h>
+
+#include "ErrorHandler/ErrorHandler.hpp"
+
+
 namespace rtos
 {
     /**

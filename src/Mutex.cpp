@@ -1,5 +1,5 @@
-#include "Mutex.hpp"
-#include "defs.hpp"
+#include <freeRTOS-lib/inc/Mutex.hpp>
+#include <freeRTOS-lib/inc/defs.hpp>
 namespace rtos
 {
 mutex::mutex()
@@ -10,7 +10,7 @@ mutex::mutex()
         ErrorHandler("Could not allocate specified stack size");
     }
 }
-mutex_state mutex::acquire(TickType_t time = portMAX_DELAY)
+mutex_state mutex::acquire(TickType_t time)
 {
     if(xSemaphoreTake(handle,time) == pdTRUE)
     {

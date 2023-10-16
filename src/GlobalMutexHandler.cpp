@@ -1,5 +1,5 @@
-#include "GlobalMutex.hpp"
-#include "GlobalMutexHandler.hpp"
+#include <freeRTOS-lib/inc/GlobalMutex.hpp>
+#include <freeRTOS-lib/inc/GlobalMutexHandler.hpp>
 
 
 
