@@ -14,10 +14,14 @@
 #include <free-rtos/include/FreeRTOS.h>
 #include <free-rtos/include/task.h>
 
+#include <freeRTOS-lib/inc/ThreadManager.hpp>
+
 #include "ErrorHandler/ErrorHandler.hpp"
 
 namespace rtos
 {
+class ThreadManager;
+extern ThreadManager thread_manager;
 
 namespace this_thread{
 	/**
@@ -42,6 +46,19 @@ namespace this_thread{
 	{
 		return  xTaskGetTickCount();
 	}
+    /**
+     * @brief releases the resources used by the calling thread
+     * 
+     * 
+     */
+    static void join(){
+        vTaskDelete(NULL);
+    }
+
+    static void wait_for_notif(){
+        xTaskNotifyWait(pdFALSE,ULONG_MAX,NULL,portMAX_DELAY);
+    }
+
 }//this_thread
 /**
  * @class thread
@@ -78,6 +95,8 @@ public:
             if (xTaskCreate((void(*)(void*))(t), name,stack_size,args...,priority,&handle) != pdPASS)
             {
                 ErrorHandler("Could not allocate specified stack size");
+            }else{
+                ThreadManager::register_thread(name,this);
             }
         }else
         {
@@ -85,6 +104,8 @@ public:
             {
                 ErrorHandler("Could not allocate specified stack size");
 
+            }else{
+                ThreadManager::register_thread(name,this);
             }
         }
     }
