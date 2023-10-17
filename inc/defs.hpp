@@ -15,6 +15,9 @@
 #include <free-rtos/include/task.h>
 #include <free-rtos/include/semphr.h>
 #include <cstdint>
+#include <type_traits>
+#include <concepts>
+#include <functional>
 
 #define PP_NARG(...) \
      PP_NARG_(__VA_ARGS__,PP_RSEQ_N())
@@ -70,3 +73,13 @@ namespace rtos
         ZZZ);
 
 }//rtos
+
+
+template<std::size_t D,typename T, typename... Args> requires std::invocable<T, Args...>
+void execute_for(T t, Args... args){
+    auto start = xTaskGetTickCount();
+    while(xTaskGetTickCount() - start < configTICK_RATE_HZ*D)
+    {
+        std::invoke(t,args...);
+    }
+}
