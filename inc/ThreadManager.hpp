@@ -22,10 +22,22 @@ class thread;
 class ThreadManager{
 
 public:
-    static void notify_thread(std::string thread_name);
-    static void register_thread(std::string thread_name,thread* thread);
+    /**
+     * @brief notifies the thread specified by thread_name
+     * 
+     * @param thread_id the thread id to be notified
+     */
+    static void notify_thread(uint8_t thread_id);
+    /**
+     * @brief called by the thread constructor to register itself
+     * 
+     * @param thread_id the id it was given
+     * @param thread a pointer to the thread (this)
+     */
+    static void register_thread(uint8_t thread_id,thread* thread);
 private:
-    static std::unordered_map<std::string,thread*> threads;
+    static constexpr uint8_t MAX_THREADS = 10;
+    static std::array<thread*,MAX_THREADS> threads;
 };
 
 } // namespace rtos

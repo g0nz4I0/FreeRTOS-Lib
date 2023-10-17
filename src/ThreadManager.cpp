@@ -14,24 +14,24 @@
 #include <freeRTOS-lib/inc/Thread.hpp>
 
 namespace rtos{
-    std::unordered_map<std::string,thread*> ThreadManager::threads;
-    void ThreadManager::notify_thread(std::string thread_name)
+    std::array<thread*,ThreadManager::MAX_THREADS> ThreadManager::threads{};
+    void ThreadManager::notify_thread(uint8_t thread_id)
     {
-        if(ThreadManager::threads.find(thread_name) == ThreadManager::threads.end())
+        if(ThreadManager::threads[thread_id] == nullptr)
         {
             Error_Handler();
         }else
         {
-            xTaskNotifyGive(ThreadManager::threads[thread_name]->get_handle());
+            xTaskNotifyGive(ThreadManager::threads[thread_id]->get_handle());
         }
     }
-    void ThreadManager::register_thread(std::string thread_name,thread* thread)
+    void ThreadManager::register_thread(uint8_t thread_id,thread* thread)
     {
-        if(ThreadManager::threads.find(thread_name) != ThreadManager::threads.end())
+        if(ThreadManager::threads[thread_id] != nullptr)
         {
             Error_Handler();
         }
-        ThreadManager::threads[thread_name] = thread;
+        ThreadManager::threads[thread_id] = thread;
     }
 
 

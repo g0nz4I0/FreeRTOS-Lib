@@ -20,10 +20,15 @@
 
 namespace rtos
 {
-class ThreadManager;
-extern ThreadManager thread_manager;
 
-namespace this_thread{
+
+/**
+ * @class this_thread
+ * @brief contains wrapper methods that capture the current context, therefore
+ * they can ONLY be used to manipulate the calling thread
+ */
+
+struct this_thread{
 	/**
 	 * @brief suspends execution for the specified time
 	 *
@@ -46,20 +51,23 @@ namespace this_thread{
 	{
 		return  xTaskGetTickCount();
 	}
+
     /**
-     * @brief releases the resources used by the calling thread
-     * 
+     * @brief deletes the thread
      * 
      */
     static void join(){
         vTaskDelete(NULL);
     }
-
+    /**
+     * @brief blocks indefinitely until a notification is received
+     * 
+     */
     static void wait_for_notif(){
         xTaskNotifyWait(pdFALSE,ULONG_MAX,NULL,portMAX_DELAY);
     }
 
-}//this_thread
+};//this_thread
 /**
  * @class thread
  * @brief thread class abstraction above native FreeRTOS tasks
@@ -80,8 +88,9 @@ public:
      * @return requires constexpr
      */
     template<typename T,typename... Args> requires std::invocable<T,Args...>
-    constexpr thread(T t,const char* name, unsigned int stack_size, unsigned int priority,Args... args):handle{0}
+    constexpr thread(T t,const char* name,u8_t id, unsigned int stack_size, unsigned int priority,Args... args):handle{0}
     {
+        this->id = id;
     	if(
     			stack_size < configMINIMAL_STACK_SIZE ||
 				priority < 1 || priority > configMAX_PRIORITIES
@@ -96,7 +105,7 @@ public:
             {
                 ErrorHandler("Could not allocate specified stack size");
             }else{
-                ThreadManager::register_thread(name,this);
+                ThreadManager::register_thread(id,this);
             }
         }else
         {
@@ -105,7 +114,7 @@ public:
                 ErrorHandler("Could not allocate specified stack size");
 
             }else{
-                ThreadManager::register_thread(name,this);
+                ThreadManager::register_thread(id,this);
             }
         }
     }
@@ -117,6 +126,7 @@ public:
      */
     TaskHandle_t get_handle()const;
 private:
+    u8_t id;
     TaskHandle_t handle{};
 };
 }//rtos
